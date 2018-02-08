@@ -1,0 +1,101 @@
+{
+	"name": "canopus",
+	"version": "0.0.1",
+	"description": "Aeroelectromash document management and issue tracking system.",
+	"main": "./app/server/index.js",
+	"scripts": {
+		"test": "jest",
+		"test-w": "jest --watchAll",
+		"build": "webpack --hide-modules",
+		"build-p": "webpack -p",
+		"start": "cross-env NODE_ENV=development node ./app/server/index.js",
+		"start-p": "cross-env NODE_ENV=production node ./app/server/index.js",
+		"dev": "webpack-dev-server",
+		"apidoc": "apidoc -i app/client/src -o docs/api"
+	},
+	"babel": {
+		"presets": [
+			"react",
+			"env"
+		],
+		"plugins": [
+			"transform-decorators-legacy",
+			"transform-class-properties"
+		]
+	},
+	"postcss": {
+		"plugins": {
+			"autoprefixer": {}
+		}
+	},
+	"apidoc": {
+		"name": "Канопус",
+		"description": "Система контроля документов и отслеживания ошибок",
+		"title": "Канопус API",
+		"url": "/api"
+	},
+	"jest": {
+		"verbose": false,
+		"collectCoverage": true,
+		"coverageDirectory": "./docs/coverage/",
+		"notify": true
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nicko-v/canopus.git"
+	},
+	"bugs": {
+		"url": "https://github.com/nicko-v/canopus/issues"
+	},
+	"homepage": "https://github.com/nicko-v/canopus#readme",
+	"author": "Nickolay Vasiliev <nicko.v@me.com>",
+	"license": "MIT",
+	"devDependencies": {
+		"animate.css": "^3.5.2",
+		"apidoc": "^0.17.6",
+		"autoprefixer": "^7.1.6",
+		"babel-core": "^6.26.0",
+		"babel-jest": "^22.1.0",
+		"babel-loader": "^7.1.2",
+		"babel-plugin-transform-class-properties": "^6.24.1",
+		"babel-plugin-transform-decorators-legacy": "^1.3.4",
+		"babel-polyfill": "^6.26.0",
+		"babel-preset-env": "^1.6.1",
+		"babel-preset-react": "^6.24.1",
+		"color": "^2.0.1",
+		"css-loader": "^0.28.9",
+		"extract-text-webpack-plugin": "^3.0.2",
+		"file-loader": "^1.1.5",
+		"html-webpack-plugin": "^2.30.1",
+		"jest": "^22.1.4",
+		"jss": "^9.5.1",
+		"jss-preset-default": "^4.1.0",
+		"material-ui": "^1.0.0-beta.32",
+		"material-ui-icons": "^1.0.0-beta.17",
+		"node-sass": "^4.6.0",
+		"postcss-loader": "^2.0.8",
+		"prop-types": "^15.6.0",
+		"react": "^16.2.0",
+		"react-dom": "^16.2.0",
+		"react-redux": "^5.0.6",
+		"react-router-dom": "^4.2.2",
+		"react-swipeable-views": "^0.12.12",
+		"redux": "^3.7.2",
+		"redux-saga": "^0.16.0",
+		"sass-loader": "^6.0.6",
+		"webpack": "^3.8.1",
+		"webpack-dev-server": "^2.11.1"
+	},
+	"dependencies": {
+		"body-parser": "^1.18.2",
+		"cross-env": "^5.1.1",
+		"express": "^4.16.2",
+		"express-mysql-session": "^1.2.2",
+		"express-session": "^1.15.6",
+		"intl": "^1.2.5",
+		"intl-locales-supported": "^1.0.0",
+		"mysql": "^2.15.0",
+		"on-finished": "^2.3.0",
+		"on-headers": "^1.0.1"
+	}
+}

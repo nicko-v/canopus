@@ -1,0 +1,76 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
+import SwipeableViews from 'react-swipeable-views';
+import Tabs, { Tab } from 'material-ui/Tabs';
+import { withStyles } from 'material-ui/styles';
+
+import bound from 'Src/utils/bound';
+
+import DemoButton from './demo-button';
+import SiFormContainer from 'Src/containers/sign-in';
+import SuFormContainer from 'Src/containers/sign-up';
+
+
+const styles = {
+	paper: {
+		maxWidth: '400px',
+		position: 'relative',
+	},
+	form: {
+		padding: '32px',
+		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'space-between',
+	},
+	button: {
+		margin: '54px auto 0',
+	},
+	textFieldHalf: {
+		width: 'calc(50% - 16px)',
+	},
+};
+
+
+@withStyles(styles)
+class SignIn extends React.Component {
+	static propTypes = {
+		classes: PropTypes.object.isRequired,
+	};
+
+	constructor() {
+		super();
+
+		this.state = {
+			activeTab: 0,
+		};
+	}
+
+	@bound
+	handleTabChange(event, value) {
+		this.setState({ activeTab: value });
+	}
+
+	render() {
+		const { classes } = this.props;
+
+		return (
+			<Paper className={classes.paper}>
+				<Tabs fullWidth value={this.state.activeTab} onChange={this.handleTabChange}>
+					<Tab label="Вход" />
+					<Tab label="Регистрация" />
+				</Tabs>
+				<SwipeableViews index={this.state.activeTab}>
+					<SiFormContainer classes={classes} />
+					<SuFormContainer classes={classes} />
+				</SwipeableViews>
+				<DemoButton />
+			</Paper>
+		);
+	}
+}
+
+
+export default SignIn;

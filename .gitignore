@@ -1,0 +1,7 @@
+*.DS_Store
+node_modules/
+app/client/build/
+app/server/config/secret.json
+app/server/logs/
+.vscode/
+docs/
