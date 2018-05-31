@@ -1,9 +1,10 @@
 const path = require('path');
+const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 
-module.exports = {
+module.exports = (env = {}) => ({
 	context: path.resolve(__dirname, 'app/client/src'), // absolute path. the entry and module.rules.loader option is resolved relative to this directory
 
 	entry: ['babel-polyfill', './index.jsx'], // Here the application starts executing and webpack starts bundling
@@ -45,6 +46,12 @@ module.exports = {
 		}),
 		new ExtractTextPlugin({
 			filename: 'styles.css'
+		}),
+		new webpack.DefinePlugin({
+			APP_VER: JSON.stringify(require('./package.json').version),
+			DEV_ENV: JSON.stringify(Boolean(env.dev)),
+			DOMAIN: JSON.stringify(env.dev ? 'localhost:8080' : ''), // TODO: Указать домен.
+			WS_ADDRESS: JSON.stringify(env.dev ? 'ws://localhost:8081' : ''), // TODO: Указать адрес WS сервера.
 		})
 	],
 
@@ -58,9 +65,10 @@ module.exports = {
 	devServer: {
 		contentBase: path.resolve(__dirname, 'app/client/build'), // static file location
 		compress: true, // enable gzip compression
+		historyApiFallback: true, // true for index.html upon 404, object for multiple paths
 		https: false, // true for self-signed, object for cert authority
 		noInfo: true, // only errors & warns on hot reload
 	},
 
 	devtool: 'source-map',
-};
+});

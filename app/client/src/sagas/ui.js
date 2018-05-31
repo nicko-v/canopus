@@ -1,19 +1,22 @@
 import { delay } from 'redux-saga';
-import { put, takeLatest } from 'redux-saga/effects';
+import { actionChannel, put, take } from 'redux-saga/effects';
 
-import { SHOW_MAIN_SNACKBAR } from 'Src/constants/ui';
+import { PUSH_SNACKBAR_MESSAGE } from 'Src/constants/ui';
 
 import UI_Actions from 'Src/action-creators/ui';
 
 
-function* hideMainSnackbarOnTimeout(action) {
-	yield delay(4000);
-	yield put(UI_Actions.hideMainSnackbar());
+function* flow() {
+	const channel = yield actionChannel(PUSH_SNACKBAR_MESSAGE);
+
+	while (true) {
+		const { payload } = yield take(channel);
+		yield put(UI_Actions.showSnackbar(payload));
+		yield delay(3500);
+		yield put(UI_Actions.hideSnackbar());
+		yield delay(500);
+	}
 }
 
-function* watcher() {
-	yield takeLatest(SHOW_MAIN_SNACKBAR, hideMainSnackbarOnTimeout);
-}
 
-
-export default watcher;
+export default flow;

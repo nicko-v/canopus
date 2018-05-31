@@ -1,37 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Notifications from 'material-ui-icons/Notifications';
-import { withStyles } from 'material-ui/styles';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import { withStyles } from '@material-ui/core/styles';
 
-import bound from 'Src/utils/bound';
-
-import IconWithPopover from './icon-with-popover';
-
-
-const styles = {
-	paper: {
-		width: '300px',
-	},
-};
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 
-@withStyles(styles)
-class NotificationsButton extends React.Component {
-	static propTypes = {
-		classes: PropTypes.object.isRequired,
-	};
+const styles = theme => ({
 
-	render() {
-		const { classes } = this.props;
+});
 
-		return (
-			<IconWithPopover title="Уведомления" icon={Notifications} paperStyles={classes.paper}>
 
-			</IconWithPopover>
-		);
-	}
+function NotificationsButton({ classes }) {
+	return (
+		<Tooltip title="Уведомления">
+			<IconButton color="inherit">
+				<NotificationsIcon />
+			</IconButton>
+		</Tooltip>
+	);
 }
 
 
-export default NotificationsButton;
+NotificationsButton.propTypes = {
+	classes: PropTypes.object,
+};
+
+export default withStyles(styles)(NotificationsButton);

@@ -12,13 +12,13 @@ function* notifyThatProfileIncompete(action) {
 	const { name, surname, patronym } = action.payload;
 
 	if (!(Boolean(name) && Boolean(surname) && Boolean(patronym))) {
-		yield put(UI_Actions.showMainSnackbar('Пожалуйста, заполните профиль.'));
+		yield put(UI_Actions.pushSnackbarMessage('Пожалуйста, заполните профиль.'));
 	}
 }
 
-function* watcher() {
+function* flow() {
 	yield takeLatest([SIGN_IN_SUCCESS, SESSION_RESTORE_SUCCESS], notifyThatProfileIncompete);
 }
 
 
-export default watcher;
+export default flow;

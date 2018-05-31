@@ -67,29 +67,47 @@ html, body, #root {
 	height: 100%;
 }
 
+body, header {
+	/*
+		MUI добавляет при открытии диалогов паддинг шириной со скроллбар для сокрытия оного,
+		однако здесь скроллбар всегда включен. Предотвращает прыжки контента.
+	*/
+	padding-right: 0 !important; 
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
 button {
 	margin: 0; /* Safari */
 }
 
-#root {
-	padding: {
-		top: 48px; /* Потому что хедер fixed */
-		left: 10px;
-		right: 10px;
-		bottom: 10px;
-	}
+main {
+	flex-grow: 1;
 	position: relative;
-	@media (max-width: 599px) {
-		padding-top: 96px;
-	}
+	width: 100%;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
+	position: relative;
 }
 
 .noselect {
+	user-select: none;
 	-ms-user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	cursor: default;
 }
+
+::-webkit-scrollbar {
+	display: none;
+}
+
 
 .material-icons {
   font-family: 'Material Icons';

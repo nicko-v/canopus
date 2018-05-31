@@ -1,115 +1,96 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { Route, withRouter } from 'react-router-dom';
 
-import AppBar from 'material-ui/AppBar';
-import Button from 'material-ui/Button';
-import Hidden from 'material-ui/Hidden';
-import ToolBar from 'material-ui/ToolBar';
-import { withStyles } from 'material-ui/styles';
-import withWidth from 'material-ui/utils/withWidth';
+import AppBar from '@material-ui/core/AppBar';
+import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import ToolBar from '@material-ui/core/ToolBar';
+import { withStyles } from '@material-ui/core/styles';
 
-import Logo from 'material-ui-icons/Memory';
+import MenuIcon from '@material-ui/icons/Menu';
 
-import AccountButton from 'Src/containers/account-button';
+import AccountButton from './account-button';
 import NotificationsButton from './notifications-button';
-import SearchButton from './search-button';
-import TabsBar from './tabs-bar';
+import ProjectsActionBar from 'Src/components/action-bar/projects-action-bar';
+import Pusher from 'Src/components/pusher/main';
+import Search from 'Src/containers/search';
+import SectionTitle from './section-title';
 
-import bound from 'Src/utils/bound';
 
-
-const styles = {
-	toolbar: {
-		minHeight: '48px',
-		'@media (min-width:1px) and (orientation: landscape)': {
-			minHeight: '48px'
-		},
-		'@media (min-width:600px)': {
-			minHeight: '48px'
-		},
+const styles = theme => ({
+	appBar: {
+		position: 'relative',
 	},
-	button: {
-		paddingTop: 0,
-		paddingBottom: 0,
-		fontSize: '1.4rem',
-		textTransform: 'none',
-		marginRight: 'auto',
-		borderRadius: 0,
-		alignSelf: 'stretch',
-		'@media (max-width: 600px)': {
-			'&:hover': {
-				backgroundColor: 'inherit'
-			},
+	divider: {
+		flexGrow: 1,
+	},
+	fixed: {
+		position: 'fixed',
+		top: 0,
+		right: 0,
+		width: '100%',
+		[theme.breakpoints.up(theme.custom.appDrawer.breakpoint)]: {
+			width: `calc(100% - ${theme.custom.appDrawer.width}px)`,
 		},
 	},
-	logo: {
-		width: '40px',
-		height: '40px',
-		marginRight: '8px',
+	menuButton: {
+		[theme.breakpoints.up(theme.custom.appDrawer.breakpoint)]: {
+			display: 'none',
+		},
 	},
+	wrapper: {
+		...theme.mixins.toolbar,
+		position: 'relative',
+		zIndex: theme.zIndex.appBar,
+	},
+});
+
+
+function Header({ classes, location, showDrawer, theme }) {
+	/*
+		Имеется шапка с position: fixed, высота которой зависит от двух внутренних блоков: toolbar и actionbar,
+		первый меняет высоту от разрешения, а второй показывается не на всех страницах.
+
+		Требуется задать обертке шапки правильную высоту что бы следующий за ней блок не налезал.
+
+		Лучшее, что удалось придумать - задать обертке класс с height, взятой со всеми медиа-правилами у toolbar
+		и инлайновый margin-bottom, равный высоте actionbar, применяющийся только по определенным путям.
+	*/
+	const path = location.pathname.toLowerCase();
+	const isActionsBarActive = ['/projects'].some(element => path.startsWith(element));
+	const wrapper = isActionsBarActive ? { marginBottom: theme.custom.actionBar.height } : {};
+	/* -=-=-=- */
+
+	return (
+		<div className={classes.wrapper} style={wrapper}>
+			<div className={classes.fixed}>
+				<AppBar className={classes.appBar}>
+					<ToolBar>
+						<IconButton className={classes.menuButton} color="inherit" onClick={showDrawer}>
+							<MenuIcon />
+						</IconButton>
+						<Hidden smDown>
+							<SectionTitle />
+						</Hidden>
+						<Pusher />
+						<Search />
+						<NotificationsButton />
+						<AccountButton />
+					</ToolBar>
+				</AppBar>
+				<Route path="/projects" component={ProjectsActionBar} />
+			</div>
+		</div>
+	);
+}
+
+Header.propTypes = {
+	classes: PropTypes.object,
+	location: PropTypes.object.isRequired,
+	showDrawer: PropTypes.func.isRequired,
+	theme: PropTypes.object.isRequired,
 };
 
 
-@withWidth()
-@withStyles(styles)
-class Header extends React.Component {
-	static propTypes = {
-		classes: PropTypes.object.isRequired,
-	};
-
-	constructor() {
-		super();
-
-		this.state = {
-			activeTab: false,
-		};
-	}
-
-	@bound
-	handleTabChange(event, value) {
-		this.setState({ activeTab: value });
-	}
-
-	@bound
-	turnOffActiveTab() {
-		this.setState({ activeTab: false });
-	}
-
-	render() {
-		const { classes } = this.props;
-		const logoProps = {
-			className: classes.button,
-			disableRipple: true,
-			color: 'inherit',
-			component: Link,
-			to: '/',
-			onClick: this.turnOffActiveTab,
-		};
-
-		return (
-			<AppBar>
-				<ToolBar classes={{ root: classes.toolbar }}>
-					<Button {...logoProps}>
-						<Logo className={classes.logo} />
-						Канопус
-					</Button>
-					<Hidden xsDown>
-						<TabsBar activeTab={this.state.activeTab} handleTabChange={this.handleTabChange} />
-					</Hidden>
-					<SearchButton />
-					<NotificationsButton />
-					<AccountButton />
-				</ToolBar>
-				<Hidden smUp>
-					<ToolBar classes={{ root: classes.toolbar }}>
-						<TabsBar activeTab={this.state.activeTab} handleTabChange={this.handleTabChange} />
-					</ToolBar>
-				</Hidden>
-			</AppBar>
-		);
-	}
-}
-
-
-export default Header;
+export default withRouter(withStyles(styles, { withTheme: true })(Header));

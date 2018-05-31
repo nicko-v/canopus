@@ -1,33 +1,55 @@
 import {
+	SHOW_MAIN_DRAWER,
+	HIDE_MAIN_DRAWER,
 	SHOW_MAIN_LOADER,
 	HIDE_MAIN_LOADER,
-	SHOW_MAIN_SNACKBAR,
-	HIDE_MAIN_SNACKBAR,
+	SHOW_SNACKBAR,
+	HIDE_SNACKBAR,
+	SWITCH_PROJECTS_LAYOUT,
 } from 'Src/constants/ui';
+import {
+	SORT_PROJECTS,
+} from 'Src/constants/project';
 
 
 const initialState = {
+	isMainDrawerActive: false,
+
 	isMainLoaderActive: false,
-	/*
-		Можно было бы обойтись только наличием/отсутствием строки в mainSnackbarMessage,
-		но в таком случае, если сообщение было достаточно длинным, заметно уменьшение длины элемента во время его исчезновения,
-		поэтому mainSnackbarMessage не очищается и всегда хранит последнее сообщение.
-	*/
-	isMainSnackbarActive: false,
-	mainSnackbarMessage: null,
-	/* -=-=-=- */
+
+	isSnackbarActive: false,
+	snackbarMessage: null,
+
+	projectsLayout: window.localStorage.getItem('projectsLayout') || 'tiles', // list|tiles
+	projectsSortOrder: window.localStorage.getItem('projectsSortOrder') || 'name', // name|number|date
 };
 
 const ui = (state = initialState, action) => {
 	switch (action.type) {
+		case SHOW_MAIN_DRAWER:
+			return { ...state, isMainDrawerActive: true };
+
+		case HIDE_MAIN_DRAWER:
+			return { ...state, isMainDrawerActive: false };
+
 		case SHOW_MAIN_LOADER:
-			return Object.assign({}, state, { isMainLoaderActive: true });
+			return { ...state, isMainLoaderActive: true };
+
 		case HIDE_MAIN_LOADER:
-			return Object.assign({}, state, { isMainLoaderActive: false });
-		case SHOW_MAIN_SNACKBAR:
-			return Object.assign({}, state, { isMainSnackbarActive: true, mainSnackbarMessage: action.payload });
-		case HIDE_MAIN_SNACKBAR:
-			return Object.assign({}, state, { isMainSnackbarActive: false });
+			return { ...state, isMainLoaderActive: false };
+
+		case SHOW_SNACKBAR:
+			return Boolean(action.payload) ? { ...state, isSnackbarActive: true, snackbarMessage: action.payload } : state;
+
+		case HIDE_SNACKBAR:
+			return { ...state, isSnackbarActive: false };
+
+		case SORT_PROJECTS:
+			return { ...state, projectsSortOrder: action.payload }
+
+		case SWITCH_PROJECTS_LAYOUT:
+			return { ...state, projectsLayout: action.payload };
+
 		default:
 			return state;
 	}

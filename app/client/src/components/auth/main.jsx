@@ -1,22 +1,21 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import SwipeableViews from 'react-swipeable-views';
-import Tabs, { Tab } from 'material-ui/Tabs';
-import { withStyles } from 'material-ui/styles';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import { withStyles } from '@material-ui/core/styles';
 
 import bound from 'Src/utils/bound';
 
-import DemoButton from './demo-button';
 import SiFormContainer from 'Src/containers/sign-in';
 import SuFormContainer from 'Src/containers/sign-up';
 
 
-const styles = {
+const styles = theme => ({
 	paper: {
-		maxWidth: '400px',
 		position: 'relative',
 	},
 	form: {
@@ -31,13 +30,13 @@ const styles = {
 	textFieldHalf: {
 		width: 'calc(50% - 16px)',
 	},
-};
+});
 
 
 @withStyles(styles)
 class SignIn extends React.Component {
 	static propTypes = {
-		classes: PropTypes.object.isRequired,
+		classes: PropTypes.object,
 	};
 
 	constructor() {
@@ -66,7 +65,6 @@ class SignIn extends React.Component {
 					<SiFormContainer classes={classes} />
 					<SuFormContainer classes={classes} />
 				</SwipeableViews>
-				<DemoButton />
 			</Paper>
 		);
 	}

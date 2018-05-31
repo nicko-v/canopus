@@ -1,13 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
-import Grid from 'material-ui/Grid';
-import { withStyles } from 'material-ui/styles';
+import Fade from '@material-ui/core/Fade';
+import { withStyles } from '@material-ui/core/styles';
 
 import Logo from 'Src/components/logo/main';
 import SignInForm from 'Src/components/auth/main';
 
 
-const styles = {
+const styles = theme => ({
 	logo: {
 		position: 'absolute',
 		top: '50%',
@@ -20,6 +21,9 @@ const styles = {
 		animationFillMode: 'forwards',
 	},
 	form: {
+		padding: '0 20px',
+		width: '100%',
+		maxWidth: '400px',
 		position: 'absolute',
 		top: '250px',
 		left: '50%',
@@ -31,6 +35,14 @@ const styles = {
 		animationDelay: '2500ms',
 		animationFillMode: 'forwards',
 	},
+	wrapper: {
+		display: 'flex',
+		alignItems: 'center',
+		flexDirection: 'column',
+		[theme.breakpoints.up(theme.custom.appDrawer.breakpoint)]: {
+			marginLeft: theme.custom.appDrawer.width / 2 * -1,
+		},
+	},
 	'@keyframes logoSlideUp': {
 		to: {
 			top: 120,
@@ -41,20 +53,34 @@ const styles = {
 			opacity: 1,
 		},
 	},
-};
+});
 
 
-function Auth({ classes }) { // TODO: Анимация должна быть на паузе пока не придет ответ о восстановлении сессии.
-	return (
-		<Grid container direction="column" alignItems="center" spacing={0}>
-			<Grid item className={classes.logo}>
-				<Logo />
-			</Grid>
-			<Grid item className={classes.form}>
-				<SignInForm />
-			</Grid>
-		</Grid>
-	);
+class Auth extends React.Component {
+	static propTypes = {
+		classes: PropTypes.object,
+	};
+
+	componentDidMount() {
+		document.title = 'Канопус';
+	}
+
+	render() {
+		const { classes } = this.props;
+
+		return (
+			<Fade in>
+				<main className={classes.wrapper}>
+					<div className={classes.logo}>
+						<Logo />
+					</div>
+					<div className={classes.form}>
+						<SignInForm />
+					</div>
+				</main>
+			</Fade>
+		);
+	}
 }
 
 

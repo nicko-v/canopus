@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 
 function SignUpForm({ classes, onSubmit, onInputChange, login, password, passwordRepeat, loginError, passwordError }) {
@@ -32,7 +32,7 @@ function SignUpForm({ classes, onSubmit, onInputChange, login, password, passwor
 	};
 	const passwordRepeatProps = {
 		id: 'su_password2',
-		label: 'Пароль ещё раз',
+		label: 'Повторите',
 		value: passwordRepeat,
 		onChange: onInputChange('passwordRepeat'),
 		error: Boolean(passwordError),
@@ -53,7 +53,7 @@ function SignUpForm({ classes, onSubmit, onInputChange, login, password, passwor
 }
 
 SignUpForm.propTypes = {
-	classes: PropTypes.object.isRequired,
+	classes: PropTypes.object,
 	onSubmit: PropTypes.func.isRequired,
 	onInputChange: PropTypes.func.isRequired,
 	login: PropTypes.string.isRequired,

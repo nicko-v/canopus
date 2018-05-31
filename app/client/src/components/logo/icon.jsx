@@ -3,13 +3,13 @@ import React from 'react';
 
 import Color from 'color';
 
-import Icon from 'material-ui/Icon';
-import { withStyles } from 'material-ui/styles';
+import Icon from '@material-ui/core/Icon';
+import { withStyles } from '@material-ui/core/styles';
 
 import longTextShadow from 'Src/utils/long-text-shadow';
 
 
-const styles = (theme) => {
+const styles = theme => {
 	const size = 80;
 	const bgColor = Color(theme.palette.secondary.main);
 	const shadowColor = bgColor.darken(0.2).hex();
@@ -37,7 +37,7 @@ function LogoIcon({ classes }) {
 }
 
 LogoIcon.propTypes = {
-	classes: PropTypes.object.isRequired,
+	classes: PropTypes.object,
 };
 
 

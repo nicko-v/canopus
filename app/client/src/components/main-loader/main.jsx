@@ -1,28 +1,34 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { withStyles } from '@material-ui/core/styles';
 
-import { LinearProgress } from 'material-ui/Progress';
-import { withStyles } from 'material-ui/styles';
 
-
-const styles = {
+const styles = theme => ({
+	hidden: {
+		display: 'none',
+	},
 	progress: {
+		left: 0,
 		position: 'absolute',
 		top: 0,
-		left: 0,
 		width: '100%',
-		zIndex: 99999,
+		zIndex: 9999,
 	},
-};
+});
 
 
-function MainLoader({ classes }) {
-	return <LinearProgress color="secondary" className={classes.progress} />;
+function MainLoader({ classes, isActive }) {
+	const className = classNames(classes.progress, { [classes.hidden]: !isActive });
+
+	return <LinearProgress color="secondary" className={className} />;
 }
 
 MainLoader.propTypes = {
-	classes: PropTypes.object.isRequired,
+	classes: PropTypes.object,
+	isActive: PropTypes.bool.isRequired,
 };
 
 

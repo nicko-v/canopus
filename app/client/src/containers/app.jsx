@@ -1,57 +1,48 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 
-import Reboot from 'material-ui/Reboot';
-import Snackbar from 'material-ui/Snackbar';
-
-import Header from 'Src/components/header/main';
-import MainLoader from 'Src/components/main-loader/main';
-import MainSnackbar from 'Src/components/main-snackbar/main';
+import AppPreloader from 'Src/components/app-preloader/main';
+import Header from 'Src/containers/header';
+import MainDrawer from 'Src/containers/main-drawer';
+import Loader from 'Src/containers/main-loader';
+import Snackbar from 'Src/containers/snackbar';
 
 import AuthPage from 'Src/pages/auth';
+import DashboardPage from 'Src/pages/dashboard';
 import IssuesPage from 'Src/pages/issues';
-import MainPage from 'Src/pages/main';
 import NotFoundPage from 'Src/pages/not-found';
-import ProfilePage from 'Src/pages/profile';
 import ProjectsPage from 'Src/pages/projects';
 
-import AuthActions from 'Src/action-creators/auth';
+import Auth_Actions from 'Src/action-creators/auth';
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
 	isAuthorized: state.auth.isAuthorized,
-	isMainLoaderActive: state.ui.isMainLoaderActive,
-	isMainSnackbarActive: state.ui.isMainSnackbarActive,
-	mainSnackbarMessage: state.ui.mainSnackbarMessage,
 });
-const mapDispatchToProps = (dispatch) => ({
-	restoreSession() { dispatch(AuthActions.sessionRestoreRequest()); },
+const mapDispatchToProps = dispatch => ({
+	restoreSession() { dispatch(Auth_Actions.sessionRestoreRequest()); },
 });
 
 
-function Router() {
+function Wrapper({ children }) {
 	return (
-		<Switch>
-			<Route exact path="/" component={MainPage} />
-			<Route exact path="/projects" component={ProjectsPage} />
-			<Route exact path="/issues" component={IssuesPage} />
-			<Route exact path="/profile" component={ProfilePage} />
-			<Route component={NotFoundPage} />
-		</Switch>
+		<React.Fragment>
+			{children}
+			<Loader />
+			<Snackbar />
+		</React.Fragment>
 	);
 }
 
 
 @withRouter
 @connect(mapStateToProps, mapDispatchToProps)
-class AppContainer extends React.Component {
+class App extends React.Component {
 	static propTypes = {
-		isAuthorized: PropTypes.bool.isRequired,
-		isMainLoaderActive: PropTypes.bool.isRequired,
-		isMainSnackbarActive: PropTypes.bool.isRequired,
-		mainSnackbarMessage: PropTypes.string,
+		isAuthorized: PropTypes.bool,
+		restoreSession: PropTypes.func.isRequired,
 	};
 
 	componentDidMount() {
@@ -61,19 +52,36 @@ class AppContainer extends React.Component {
 	}
 
 	render() {
-		const { isAuthorized, isMainLoaderActive, isMainSnackbarActive, mainSnackbarMessage, classes } = this.props;
+		const { isAuthorized } = this.props;
 
-		return (
-			<React.Fragment>
-				<Reboot />
-				{isMainLoaderActive && <MainLoader />}
-				{isAuthorized && <Header />}
-				{isAuthorized ? <Router /> : <AuthPage />}
-				<MainSnackbar isActive={isMainSnackbarActive} message={mainSnackbarMessage} />
-			</React.Fragment>
-		);
+		if (isAuthorized) {
+			return (
+				<Wrapper>
+					<Header />
+					<MainDrawer />
+					<Switch>
+						<Redirect exact from="/login" to="/" />
+						<Route exact path="/" component={DashboardPage} />
+						<Route exact path="/issues/:id([0-9]+)?" component={IssuesPage} />
+						<Route exact path="/projects/:id([0-9]+)?" component={ProjectsPage} />
+						<Route exact path="/not-found" component={NotFoundPage} />
+						<Redirect to="/not-found" />
+					</Switch>
+				</Wrapper>
+			);
+		} else if (isAuthorized === false) {
+			return (
+				<Wrapper>
+					<Switch>
+						<Route exact path="/login" component={AuthPage} />
+						<Redirect to="/login" />
+					</Switch>
+				</Wrapper>
+			);
+		} else { // Если undefined - значит еще не получен ответ сервера о восстановлении сессии.
+			return <AppPreloader />;
+		}
 	}
 }
 
-
-export default AppContainer;
+export default App;

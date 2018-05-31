@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => ({
 @connect(mapStateToProps, mapDispatchToProps)
 class SignIn extends React.Component {
 	static propTypes = {
-		classes: PropTypes.object.isRequired,
+		classes: PropTypes.object,
 		loginError: PropTypes.string,
 		passwordError: PropTypes.string,
 		signIn: PropTypes.func.isRequired,

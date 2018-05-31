@@ -1,13 +1,13 @@
-function validateForm(login, password, passwordRepeat) {
-	class ValidationError {
-		constructor({ login, password }) {
-			this.name = 'ValidationError';
-			this.message = 'Введёные данные не соответствуют требованиям.';
-			this.login = login;
-			this.password = password;
-		}
+class ValidationError {
+	constructor({ login, password }) {
+		this.name = 'ValidationError';
+		this.message = 'Введённые данные не соответствуют требованиям.';
+		this.login = login;
+		this.password = password;
 	}
+}
 
+function validateForm(login, password, passwordRepeat) {
 	const loginMinLength = 3;
 	const loginMaxLength = 10;
 	const passwordMinLength = 4;

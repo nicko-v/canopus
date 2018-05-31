@@ -11,12 +11,10 @@ import {
 	SESSION_RESTORE_SUCCESS,
 	SESSION_RESTORE_FAILURE,
 } from 'Src/constants/auth';
-import { DEMO_SIGN_IN } from 'Src/constants/demo';
 
 
 const initialState = {
-	isAuthorized: false,
-	isDemo: false,
+	isAuthorized: undefined,
 	si_loginError: null, // Сообщения о некорректном заполнении, появляющиеся под полями ввода в формах Sign In и Sign Up
 	si_passwordError: null,
 	su_loginError: null,
@@ -25,29 +23,41 @@ const initialState = {
 
 const auth = (state = initialState, action) => {
 	switch (action.type) {
-		case DEMO_SIGN_IN:
-			return Object.assign({}, initialState, { isAuthorized: true, isDemo: true, });
-
 		case SIGN_IN_SUCCESS:
 		case SIGN_UP_SUCCESS:
 		case SESSION_RESTORE_SUCCESS:
-			return Object.assign({}, initialState, { isAuthorized: true, isDemo: false, });
-
-		case SIGN_IN_FAILURE:
-			return Object.assign({}, state, {
-				si_loginError: action.payload.login,
-				si_passwordError: action.payload.password,
-			});
-
-		case SIGN_UP_FAILURE:
-			return Object.assign({}, state, {
-				su_loginError: action.payload.login,
-				su_passwordError: action.payload.password,
-			});
+			return {
+				...initialState,
+				isAuthorized: true,
+			};
 
 		case SESSION_RESTORE_FAILURE:
+			return {
+				...state,
+				isAuthorized: false,
+			};
+
+		case SIGN_IN_FAILURE:
+			return {
+				...state,
+				isAuthorized: false,
+				si_loginError: action.payload.login,
+				si_passwordError: action.payload.password,
+			};
+
+		case SIGN_UP_FAILURE:
+			return {
+				...state,
+				isAuthorized: false,
+				su_loginError: action.payload.login,
+				su_passwordError: action.payload.password,
+			};
+
 		case SIGN_OUT_SUCCESS:
-			return initialState;
+			return {
+				...initialState,
+				isAuthorized: false,
+			};
 
 		case SIGN_OUT_FAILURE:
 			return state;

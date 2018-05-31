@@ -14,7 +14,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import { MuiThemeProvider } from 'material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 
 import App from './containers/app';
 
@@ -34,6 +35,7 @@ ReactDOM.render(
 	<Provider store={store}>
 		<BrowserRouter>
 			<MuiThemeProvider theme={theme}>
+				<CssBaseline />
 				<App />
 			</MuiThemeProvider>
 		</BrowserRouter>

@@ -11,7 +11,6 @@ import {
 	SESSION_RESTORE_SUCCESS,
 	SESSION_RESTORE_FAILURE,
 } from 'Src/constants/auth';
-import { DEMO_SIGN_IN } from 'Src/constants/demo';
 
 
 const initialState = {
@@ -23,14 +22,6 @@ const initialState = {
 
 const user = (state = initialState, action) => {
 	switch (action.type) {
-		case DEMO_SIGN_IN:
-			return Object.assign({}, state, {
-				name: 'Иван',
-				surname: 'Иванов',
-				patronym: 'Иванович',
-				username: 'demouser',
-			});
-
 		case SIGN_IN_SUCCESS:
 		case SESSION_RESTORE_SUCCESS:
 			return Object.assign({}, state, {

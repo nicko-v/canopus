@@ -36,7 +36,7 @@ function* signIn(action) {
 		yield put(Auth_Actions.signInSuccess(userData));
 	} catch (error) {
 		yield put(Auth_Actions.signInFailure(error));
-		yield put(UI_Actions.showMainSnackbar(error.message));
+		yield put(UI_Actions.pushSnackbarMessage(error.message));
 	} finally {
 		yield put(UI_Actions.hideMainLoader());
 	}
@@ -50,10 +50,10 @@ function* signUp(action) {
 		yield validateAuthForm(login, password, passwordRepeat);
 		const userData = yield call(Auth_API.signUp, [login, password, passwordRepeat]);
 		yield put(Auth_Actions.signUpSuccess(userData));
-		yield put(UI_Actions.showMainSnackbar('Успешно! Осталось только заполнить профиль.'));
+		yield put(UI_Actions.pushSnackbarMessage('Успешно! Осталось только заполнить профиль.'));
 	} catch (error) {
 		yield put(Auth_Actions.signUpFailure(error));
-		yield put(UI_Actions.showMainSnackbar(error.message));
+		yield put(UI_Actions.pushSnackbarMessage(error.message));
 	} finally {
 		yield put(UI_Actions.hideMainLoader());
 	}
@@ -66,7 +66,7 @@ function* signOut() {
 		yield put(Auth_Actions.signOutSuccess());
 	} catch (error) {
 		yield put(Auth_Actions.signOutFailure(error));
-		yield put(UI_Actions.showMainSnackbar(error.message));
+		yield put(UI_Actions.pushSnackbarMessage(error.message));
 	} finally {
 		yield put(UI_Actions.hideMainLoader());
 	}
@@ -81,7 +81,7 @@ function* restoreSession() {
 	}
 }
 
-function* watcher() {
+function* flow() {
 	yield takeLatest(SIGN_IN_REQUEST, signIn);
 	yield takeLatest(SIGN_UP_REQUEST, signUp);
 	yield takeLatest(SIGN_OUT_REQUEST, signOut);
@@ -89,4 +89,4 @@ function* watcher() {
 }
 
 
-export default watcher;
+export default flow;

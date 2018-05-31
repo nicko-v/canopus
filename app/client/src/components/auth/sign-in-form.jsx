@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 
 function SignInForm({ classes, onSubmit, onInputChange, login, password, loginError, passwordError }) {
@@ -40,7 +40,7 @@ function SignInForm({ classes, onSubmit, onInputChange, login, password, loginEr
 }
 
 SignInForm.propTypes = {
-	classes: PropTypes.object.isRequired,
+	classes: PropTypes.object,
 	onSubmit: PropTypes.func.isRequired,
 	onInputChange: PropTypes.func.isRequired,
 	login: PropTypes.string.isRequired,

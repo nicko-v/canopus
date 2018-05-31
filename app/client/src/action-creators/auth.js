@@ -15,17 +15,9 @@ import {
 	SESSION_RESTORE_SUCCESS,
 	SESSION_RESTORE_FAILURE,
 } from 'Src/constants/auth';
-import { DEMO_SIGN_IN } from 'Src/constants/demo';
 
 
 class Auth {
-	static demoSignIn() {
-		return {
-			type: DEMO_SIGN_IN,
-			payload: null,
-		};
-	}
-
 	static signInRequest(formData) {
 		return {
 			type: SIGN_IN_REQUEST,

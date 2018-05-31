@@ -1,3 +1,6 @@
+import { mock_user } from 'Src/mock/index';
+
+
 /**
  * @apiDefine signInSuccess
  * @apiSuccess {Object} userData Данные пользователя.
@@ -79,7 +82,7 @@
  *   HTTP/1.1 400 Bad Request
  *   {
  *     "name": "ValidationError",
- *     "message": "Введёные данные не соответствуют требованиям.",
+ *     "message": "Введённые данные не соответствуют требованиям.",
  *     "login": "Недопустимые символы.",
  *     "password": "От 4 до 20 символов."
  *   }
@@ -133,7 +136,9 @@ class Auth {
 	 */
 	static signIn(name, password) {
 		return new Promise((resolve, reject) => {
-			resolve({ username: 'test' });
+			if (DEV_ENV) { resolve(mock_user); return; }
+
+			reject({});
 		});
 	}
 
@@ -154,7 +159,9 @@ class Auth {
 	 */
 	static signUp(name, password, passwordRepeat) {
 		return new Promise((resolve, reject) => {
-			resolve({ username: 'test' });
+			if (DEV_ENV) { resolve({ username: 'developer' }); return; }
+
+			reject({});
 		});
 	}
 
@@ -170,7 +177,9 @@ class Auth {
 	 */
 	static signOut() {
 		return new Promise((resolve, reject) => {
-			resolve({});
+			if (DEV_ENV) { resolve({ username: 'developer' }); return; }
+
+			reject({});
 		});
 	}
 
@@ -186,7 +195,9 @@ class Auth {
 	 */
 	static restoreSession() {
 		return new Promise((resolve, reject) => {
-			resolve({ username: 'test' });
+			if (DEV_ENV) { resolve(mock_user); return; }
+
+			reject({});
 		});
 	}
 }
