@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
 	tabRoot: {
-		height: 32,
+		minHeight: 32,
 		marginRight: 8,
 		minWidth: 32,
 		'&:last-child': {
