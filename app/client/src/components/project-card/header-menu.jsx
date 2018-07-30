@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import AddVersionIcon from '@material-ui/icons/LibraryAdd';
 import CreateMapIcon from '@material-ui/icons/DeviceHub';
-import DownloadIcon from '@material-ui/icons/FileDownload';
+import DownloadIcon from '@material-ui/icons/CloudDownload';
 import EditIcon from '@material-ui/icons/Edit';
 import HistoryIcon from '@material-ui/icons/History';
 import MoreIcon from '@material-ui/icons/MoreHoriz';
