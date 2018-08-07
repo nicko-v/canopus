@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import AddButton from 'Src/containers/project-add-button';
 import AddDialog from 'Src/containers/project-add-dialog';
-import BreadCrumbs from 'Src/components/breadcrumbs/main';
 import ProjectContent from 'Src/containers/project-content';
 
 import Project_Actions from 'Src/action-creators/project';
