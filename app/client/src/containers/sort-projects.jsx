@@ -36,6 +36,7 @@ class SortProjects extends React.Component {
 			currentTab: this.props.sortOrder,
 			handleTabChange: this.handleTabChange,
 			title: 'сортировка',
+			tooltips: ['По номеру', 'По названию', 'По дате изменения'],
 			values: ['number', 'name', 'date'],
 		};
 

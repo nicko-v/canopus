@@ -35,6 +35,7 @@ class SwitchProjectsLayout extends React.Component {
 			currentTab: this.props.projectsLayout,
 			handleTabChange: this.handleTabChange,
 			title: 'вид',
+			tooltips: ['Карточки', 'Список'],
 			values: ['tiles', 'list'],
 		};
 

@@ -3,6 +3,7 @@ import React from 'react';
 
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -32,15 +33,15 @@ const styles = theme => ({
 });
 
 
-function Switcher({ children, classes, currentTab, handleTabChange, title, values }) {
-	return ( // TODO: Обязательно нужны тултипы к иконкам. Пока не реализовано в MUI.
+function Switcher({ children, classes, currentTab, handleTabChange, title, tooltips, values }) {
+	return (
 		<div className={classes.wrapper}>
 			<Typography className="noselect" color="inherit" variant="caption">{title}</Typography>
 			<Tabs classes={{ root: classes.tabsRoot }} onChange={handleTabChange} value={currentTab}>
 				{children.map((icon, index) =>
 					<Tab
 						classes={{ root: classes.tabRoot }}
-						icon={icon}
+						icon={<Tooltip title={tooltips[index]} children={icon} />}
 						key={values[index]}
 						value={values[index]}
 					/>
@@ -56,6 +57,7 @@ Switcher.propTypes = {
 	currentTab: PropTypes.string.isRequired,
 	handleTabChange: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
+	tooltips: PropTypes.arrayOf(PropTypes.string).isRequired,
 	values: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
